@@ -3,16 +3,19 @@ import { Platform, PlatformType } from "./types/platform";
 import { Users } from "./types/users";
 
 const express = require('express');
+const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
 
+app.use(cors());
+
 app.get('/', (req, res) => {
-    res.send('Hi');
-})
+    res.send('hi');
+});
 
 //Gets the number of users on the webiste per day
-app.get('/users', (req, res) => {
+app.get('/api/users', (req, res) => {
     //Filler data
     const users: Users[] = [
         { date: new Date('2020-07-01'), numUsers: 100 },
@@ -24,11 +27,11 @@ app.get('/users', (req, res) => {
         { date: new Date('2020-07-07'), numUsers: 160 },
         { date: new Date('2020-07-08'), numUsers: 170 },
     ]
-    res.send(users);
+    res.send(JSON.stringify(users));
 })
 
 //Gets the breakdown of users per platform for a given date
-app.get('/platformUsage', (req, res) => {
+app.get('/api/platformUsage', (req, res) => {
     console.log(`Getting platform usage data for date: ${req.query.date}`);
 
     //Filler data
@@ -42,7 +45,7 @@ app.get('/platformUsage', (req, res) => {
 })
 
 //Gets the number of views for a specific page on the website for a given date
-app.get('/pageViews', (req, res) => {
+app.get('/api/pageViews', (req, res) => {
     console.log(`Getting page views from date: ${req.query.date}`);
 
     //Filler data
